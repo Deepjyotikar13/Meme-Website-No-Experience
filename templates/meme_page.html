@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="device-width initial-scale=1.0">
+    <title>make a meme website</title>
+    <link href="{{url_for('static',filename='style_body.css')}}" rel="stylesheet"/>
+   
+</head>
+<body>
+    <div class="main-box">
+        <div class="text-container">
+            <div class="sub-name-profile-img">
+                <div class="profile-img"></div>
+                <a class="sub-name" href="{{meme_data[4]}}" >{{meme_data[1]}}</a>
+            </div>
+            
+            <div class="title-container">
+                <p class="text">{{meme_data[2]}}</p>
+            </div>
+        </div>
+        <div class="image-container">
+            <img class="meme-image" src="{{meme_data[0]}}" alt="meme"><!--{{ url_for('static',filename='Meme_img.png')}}-->
+        </div>
+        <div class="buttons-and-comment-box">
+            <div class="up-down-button-box">
+                <div class="up-button-img-box">
+                    <img class="up-down-arrow" src="{{ url_for('static',filename='up_or_down.png')}}" alt="up">
+                </div>
+                <p class="total-up-vote">{{meme_data[3]}}</p>
+                <div class="down-button-img-box">
+                     <img class="up-down-arrow" src="{{ url_for('static',filename='up_or_down.png')}}" alt="down">
+                </div>
+            </div>
+            
+            
+            <div class="comment-button-box">
+                <div class="comment-img-box">
+                     <img class="meme-image" src="{{ url_for('static',filename='comment.png')}}" alt="comment">
+                </div>
+            </div>
+            
+        </div>
+        
+    <script src="{{url_for('static',filename='swipe.js')}}"></script>
+    <script>
+document.addEventListener('DOMContentLoaded', (event) => {
+    // Get the necessary elements
+    const up_button_img = document.querySelector('.up-down-arrow');//this is the image of up vote
+    const button = document.querySelector('.up-button-img-box');//this is the div where rge up_button_image is 
+    const currentUp = document.getElementsByClassName('total-up-vote')[0];//and this the total upvotes of the meme
+
+    // Variable to track the current state
+    let isUpClicked = true;
+
+    // Add event listener to the button
+    button.addEventListener('click', function() {
+        // Change the image source based on the current state
+        if (isUpClicked) {
+            up_button_img.src = "{{ url_for('static', filename='up_clicked.png') }}"; //changing the image
+            //incrementing up vote by 1 as it has been up Voted
+            let currentNum = parseInt(currentUp.textContent, 10);
+        currentUp.innerText = currentNum + 1;
+        } else {
+            up_button_img.src = "{{ url_for('static', filename='up_or_down.png') }}";
+            //decreasing the up vote by 1 as the user has unselected up vote
+            let currentNum = parseInt(currentUp.textContent, 10);
+            currentUp.innerText = currentNum -1;
+        }
+
+        // Toggle the clicked class for visual feedback (optional)
+        up_button_img.classList.add('clicked');
+        setTimeout(() => {
+            up_button_img.classList.remove('clicked');
+        }, 3000);
+
+        // Toggle the state
+        isUpClicked = !isUpClicked;
+    });
+});
+
+    </script>
+</body>
+    
+</html>
